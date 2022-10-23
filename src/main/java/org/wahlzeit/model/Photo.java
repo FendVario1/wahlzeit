@@ -74,6 +74,11 @@ public class Photo extends DataObject {
 	protected Tags tags = Tags.EMPTY_TAGS;
 
 	/**
+	 *
+	 */
+	protected Location location;
+
+	/**
 	 * 
 	 */
 	protected PhotoStatus status = PhotoStatus.VISIBLE;
@@ -96,7 +101,17 @@ public class Photo extends DataObject {
 		id = PhotoId.getNextId();
 		incWriteCount();
 	}
-	
+
+	/**
+	 *
+	 * @methodtype constructor
+	 */
+	public Photo(Location location) {
+		id = PhotoId.getNextId();
+		this.location = location;
+		incWriteCount();
+	}
+
 	/**
 	 * 
 	 * @methodtype constructor
@@ -104,6 +119,17 @@ public class Photo extends DataObject {
 	public Photo(PhotoId myId) {
 		id = myId;
 		
+		incWriteCount();
+	}
+
+	/**
+	 *
+	 * @methodtype constructor
+	 */
+	public Photo(PhotoId myId, Location location) {
+		id = myId;
+		this.location = location;
+
 		incWriteCount();
 	}
 	
@@ -126,7 +152,7 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
-	public void readFrom(ResultSet rset) throws SQLException {
+	public void readFrom(ResultSet rset) throws SQLException {// TODO add location
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 
 		ownerId = rset.getInt("owner_id");
@@ -154,7 +180,7 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException {// TODO add location
 		rset.updateInt("id", id.asInt());
 		rset.updateInt("owner_id", ownerId);
 		rset.updateString("owner_name", ownerName);
@@ -411,6 +437,23 @@ public class Photo extends DataObject {
 	 */
 	public boolean isVisible() {
 		return status.isDisplayable();
+	}
+
+	/**
+	 *
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 *
+	 * @methodtype set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
+		incWriteCount();
 	}
 	
 	/**

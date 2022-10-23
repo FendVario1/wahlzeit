@@ -21,7 +21,9 @@ sourceSets {
 }
 
 dependencies {
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.1' 
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
     
     implementation 'org.postgresql:postgresql:9.3-1104-jdbc41'    
     implementation 'log4j:log4j:1.2.17'
