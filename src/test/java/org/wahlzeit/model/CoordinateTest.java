@@ -2,7 +2,11 @@ package org.wahlzeit.model;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * All test cases of the class {@link Coordinate}.
@@ -92,5 +96,29 @@ public class CoordinateTest {
         assertEquals(coordinate1, coordinate2);
         // test difference is detected
         assertNotEquals(coordinate1, coordinate3);
+    }
+
+    @Test
+    public void testSerialization() throws SQLException {
+        Coordinate coordinate = new Coordinate(1.1, 2.2, 3.3);
+        ResultSet rset = mock(ResultSet.class);
+
+        coordinate.writeOn(rset);
+
+        verify(rset, times(1)).updateDouble("coordinate_x", coordinate.getX());
+        verify(rset, times(1)).updateDouble("coordinate_y", coordinate.getY());
+        verify(rset, times(1)).updateDouble("coordinate_z", coordinate.getZ());
+    }
+
+    @Test
+    public void testDeserialization() throws SQLException {
+        Coordinate coordinate = new Coordinate(1.1, 2.2, 3.3);
+        ResultSet rset = mock(ResultSet.class);
+
+        coordinate.readFrom(rset);
+
+        verify(rset, times(1)).getDouble("coordinate_x");
+        verify(rset, times(1)).getDouble("coordinate_y");
+        verify(rset, times(1)).getDouble("coordinate_z");
     }
 }
