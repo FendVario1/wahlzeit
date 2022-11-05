@@ -20,7 +20,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * 
 	 */
-	protected static final PhotoManager instance = new PhotoManager();
+	protected static PhotoManager instance = null;
 
 	/**
 	 * In-memory cache for photos
@@ -35,8 +35,22 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * 
 	 */
-	public static final PhotoManager getInstance() {
+	public static synchronized PhotoManager getInstance() {
+		if (instance == null) {
+			SysLog.logSysInfo("setting generic PhotoFactory");
+			setInstance(new PhotoManager());
+		}
 		return instance;
+	}
+
+	/**
+	 *
+	 */
+	public static final synchronized void setInstance(PhotoManager photoManager) {
+		if (instance != null) {
+			throw new IllegalStateException("attempt to initialize PhotoManager twice");
+		}
+		instance = photoManager;
 	}
 	
 	/**

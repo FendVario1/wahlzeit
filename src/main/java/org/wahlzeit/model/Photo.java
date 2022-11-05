@@ -152,7 +152,7 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
-	public void readFrom(ResultSet rset) throws SQLException {// TODO add location
+	public void readFrom(ResultSet rset) throws SQLException {
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 
 		ownerId = rset.getInt("owner_id");
@@ -176,13 +176,14 @@ public class Photo extends DataObject {
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
+		location = new Location(new Coordinate(0,0,0));
 		location.readFrom(rset);
 	}
 	
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {// TODO add location
+	public void writeOn(ResultSet rset) throws SQLException {
 		rset.updateInt("id", id.asInt());
 		rset.updateInt("owner_id", ownerId);
 		rset.updateString("owner_name", ownerName);
