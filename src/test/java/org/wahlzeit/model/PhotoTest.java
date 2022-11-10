@@ -17,7 +17,7 @@ public class PhotoTest {
     public void testLocationStorage() {
         Photo photo = new Photo();
         assertNull(photo.getLocation());
-        Location location = new Location(new Coordinate(1.1, 2.2, 3.3));
+        Location location = new Location(new CartesianCoordinate(1.1, 2.2, 3.3));
         photo.setLocation(location);
         assertEquals(location, photo.getLocation());
         photo = new Photo(location);

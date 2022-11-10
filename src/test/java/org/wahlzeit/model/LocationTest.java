@@ -16,7 +16,7 @@ public class LocationTest {
 
     @Test
     public void testLocation() {
-        Coordinate coordinate = new Coordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate = new CartesianCoordinate(1.1, 2.2, 3.3);
         Location location = new Location(coordinate);
         assertNotNull(location.coordinate);
         assertEquals(coordinate, location.coordinate);
@@ -24,7 +24,7 @@ public class LocationTest {
 
     @Test
     public void testSerialization() throws SQLException {
-        Coordinate coordinate = mock(Coordinate.class);
+        CartesianCoordinate coordinate = mock(CartesianCoordinate.class);
         Location location = new Location(coordinate);
         ResultSet rset = mock(ResultSet.class);
 
@@ -35,7 +35,7 @@ public class LocationTest {
 
     @Test
     public void testDeserialization() throws SQLException {
-        Coordinate coordinate = mock(Coordinate.class);
+        CartesianCoordinate coordinate = mock(CartesianCoordinate.class);
         Location location = new Location(coordinate);
         ResultSet rset = mock(ResultSet.class);
 

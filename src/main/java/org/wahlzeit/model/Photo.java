@@ -176,7 +176,7 @@ public class Photo extends DataObject {
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
-		location = new Location(new Coordinate(0,0,0));
+		location = new Location(new CartesianCoordinate(0,0,0));
 		location.readFrom(rset);
 	}
 	

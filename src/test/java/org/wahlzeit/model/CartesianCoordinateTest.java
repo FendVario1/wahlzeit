@@ -9,17 +9,17 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
- * All test cases of the class {@link Coordinate}.
+ * All test cases of the class {@link CartesianCoordinate}.
  */
-public class CoordinateTest {
+public class CartesianCoordinateTest {
     private final double delta = 0.0001;
 
     @Test
-    public void testCoordinate() {
+    public void testCartesianCoordinate() {
         Double x = 1.1;
         Double y = 2.2;
         Double z = 3.3;
-        Coordinate coordinate = new Coordinate(x, y, z);
+        CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
         /* cast to Double as assertEquals works for Object and Double, which IntelliJ does not like */
         assertEquals(x, (Double) coordinate.getX());
         assertEquals(y, (Double) coordinate.getY());
@@ -28,11 +28,11 @@ public class CoordinateTest {
 
     @Test
     public void testGetDistance() {
-        Coordinate coordinate1 = new Coordinate(1.1, 2.2, 3.3);
-        Coordinate coordinate2 = new Coordinate(1.1, 2.2, 3.3);
-        Coordinate coordinate3 = new Coordinate(0.0, 2.2, 3.3);
-        Coordinate coordinate4 = new Coordinate(0.0, 1.1, 2.2);
-        Coordinate coordinate5 = new Coordinate(0.0, 0.1, 0.2);
+        CartesianCoordinate coordinate1 = new CartesianCoordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate2 = new CartesianCoordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate3 = new CartesianCoordinate(0.0, 2.2, 3.3);
+        CartesianCoordinate coordinate4 = new CartesianCoordinate(0.0, 1.1, 2.2);
+        CartesianCoordinate coordinate5 = new CartesianCoordinate(0.0, 0.1, 0.2);
         // test distance with self is 0
         assertEquals(0, coordinate1.getDistance(coordinate1), delta);
         // test distance with identical coordinate is 0
@@ -47,16 +47,16 @@ public class CoordinateTest {
 
     @Test
     public void testIsEqual() {
-        Coordinate coordinate1 = new Coordinate(1.1, 2.2, 3.3);
-        Coordinate coordinate2 = new Coordinate(1.1, 2.2, 3.3);
-        Coordinate coordinate3 = new Coordinate(0.0, 2.2, 3.3);
-        Coordinate coordinate4 = new Coordinate(1.1, 0.0, 3.3);
-        Coordinate coordinate5 = new Coordinate(1.1, 2.2, 0.0);
-        Coordinate coordinate6 = new Coordinate(1.100001, 2.2, 3.3);
-        Coordinate coordinate7 = new Coordinate(1.1, 2.200001, 3.3);
-        Coordinate coordinate8 = new Coordinate(1.1, 2.2, 3.300001);
-        Coordinate coordinate9 = new Coordinate(1.1, 2.2, 3.300001);
-        Coordinate coordinate10 = new Coordinate(1.1, 2.2, 3.3002);
+        CartesianCoordinate coordinate1 = new CartesianCoordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate2 = new CartesianCoordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate3 = new CartesianCoordinate(0.0, 2.2, 3.3);
+        CartesianCoordinate coordinate4 = new CartesianCoordinate(1.1, 0.0, 3.3);
+        CartesianCoordinate coordinate5 = new CartesianCoordinate(1.1, 2.2, 0.0);
+        CartesianCoordinate coordinate6 = new CartesianCoordinate(1.100001, 2.2, 3.3);
+        CartesianCoordinate coordinate7 = new CartesianCoordinate(1.1, 2.200001, 3.3);
+        CartesianCoordinate coordinate8 = new CartesianCoordinate(1.1, 2.2, 3.300001);
+        CartesianCoordinate coordinate9 = new CartesianCoordinate(1.1, 2.2, 3.300001);
+        CartesianCoordinate coordinate10 = new CartesianCoordinate(1.1, 2.2, 3.3002);
 
         // test self is equal
         assertTrue(coordinate1.isEqual(coordinate1));
@@ -82,9 +82,9 @@ public class CoordinateTest {
 
     @Test
     public void testEquals() {
-        Coordinate coordinate1 = new Coordinate(1.1, 2.2, 3.3);
-        Coordinate coordinate2 = new Coordinate(1.1, 2.2, 3.3);
-        Coordinate coordinate3 = new Coordinate(0.0, 2.2, 3.3);
+        CartesianCoordinate coordinate1 = new CartesianCoordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate2 = new CartesianCoordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate3 = new CartesianCoordinate(0.0, 2.2, 3.3);
         Location location = new Location(coordinate1);
         // test null not equal
         assertNotEquals(null, coordinate1);
@@ -100,7 +100,7 @@ public class CoordinateTest {
 
     @Test
     public void testSerialization() throws SQLException {
-        Coordinate coordinate = new Coordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate = new CartesianCoordinate(1.1, 2.2, 3.3);
         ResultSet rset = mock(ResultSet.class);
 
         coordinate.writeOn(rset);
@@ -112,7 +112,7 @@ public class CoordinateTest {
 
     @Test
     public void testDeserialization() throws SQLException {
-        Coordinate coordinate = new Coordinate(1.1, 2.2, 3.3);
+        CartesianCoordinate coordinate = new CartesianCoordinate(1.1, 2.2, 3.3);
         ResultSet rset = mock(ResultSet.class);
 
         coordinate.readFrom(rset);
@@ -120,5 +120,19 @@ public class CoordinateTest {
         verify(rset, times(1)).getDouble("coordinate_x");
         verify(rset, times(1)).getDouble("coordinate_y");
         verify(rset, times(1)).getDouble("coordinate_z");
+    }
+
+    @Test
+    public void testSphericalConversion() {
+        CartesianCoordinate coordinate = new CartesianCoordinate(1.4, 2.1, 2);
+        SphericCoordinate sphericCoordinate = coordinate.asSphericCoordinate();
+        assertEquals(0.9827, sphericCoordinate.getPhi(), delta);
+        assertEquals(0.9006, sphericCoordinate.getTheta(), delta);
+        assertEquals(3.2202, sphericCoordinate.getRadius(), delta);
+        // check backwards cast works as well
+        CartesianCoordinate coordinate2 = sphericCoordinate.asCartesianCoordinate();
+        assertEquals(coordinate.getX(), coordinate2.getX(), delta);
+        assertEquals(coordinate.getY(), coordinate2.getY(), delta);
+        assertEquals(coordinate.getZ(), coordinate2.getZ(), delta);
     }
 }
