@@ -10,14 +10,14 @@ public class SphericalCoordinateTest {
 
     @Test
     public void testSphericalCoordinate() {
-        Double phi = 1.1;
-        Double theta = 2.2;
-        Double radius = 3.3;
+        double phi = 1.1;
+        double theta = 2.2;
+        double radius = 3.3;
         SphericCoordinate coordinate = new SphericCoordinate(phi, theta, radius);
         /* cast to Double as assertEquals works for Object and Double, which IntelliJ does not like */
-        assertEquals(phi, (Double) coordinate.getPhi());
-        assertEquals(theta, (Double) coordinate.getTheta());
-        assertEquals(radius, (Double) coordinate.getRadius());
+        assertEquals(phi, coordinate.getPhi(), delta);
+        assertEquals(theta, coordinate.getTheta(), delta);
+        assertEquals(radius, coordinate.getRadius(), delta);
     }
 
     @Test
