@@ -135,4 +135,14 @@ public class CartesianCoordinateTest {
         assertEquals(coordinate.getY(), coordinate2.getY(), delta);
         assertEquals(coordinate.getZ(), coordinate2.getZ(), delta);
     }
+
+    @Test
+    public void testLoadValues() {
+        CartesianCoordinate coordinate = new CartesianCoordinate(1.4, 2.1, 2);
+        CartesianCoordinate coordinate1 = new CartesianCoordinate(0.0, 0.0, 0.0);
+        coordinate1.loadValues(coordinate);
+        assertEquals(coordinate.getX(), coordinate1.getX(), delta);
+        assertEquals(coordinate.getY(), coordinate1.getY(), delta);
+        assertEquals(coordinate.getZ(), coordinate1.getZ(), delta);
+    }
 }

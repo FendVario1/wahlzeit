@@ -1,7 +1,5 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.DataObject;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +8,7 @@ import java.util.Objects;
 /**
  * Class representing coordinates in a 3-dimensional cartesian system
  */
-public class CartesianCoordinate extends DataObject implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
     private final static double delta = 0.001;
 
     private double x;
@@ -63,11 +61,6 @@ public class CartesianCoordinate extends DataObject implements Coordinate {
     }
 
     @Override
-    public String getIdAsString() {
-        return null;
-    }
-
-    @Override
     public void readFrom(ResultSet rset) throws SQLException {
         x = rset.getDouble("coordinate_x");
         y = rset.getDouble("coordinate_y");
@@ -81,9 +74,10 @@ public class CartesianCoordinate extends DataObject implements Coordinate {
         rset.updateDouble("coordinate_z", z);
     }
 
-    @Override
-    public void writeId(PreparedStatement stmt, int pos) {
-        incWriteCount();
+    protected void loadValues(CartesianCoordinate coordinate) {
+        x = coordinate.x;
+        y = coordinate.y;
+        z = coordinate.z;
     }
 
     @Override
@@ -102,15 +96,5 @@ public class CartesianCoordinate extends DataObject implements Coordinate {
         double phi = SphericCoordinate.takeModulo(Math.atan2(y, x));
         double theta = SphericCoordinate.takeModulo(Math.acos(z/radius));
         return new SphericCoordinate(phi, theta, radius);
-    }
-
-    @Override
-    public double getCentralAngle(Coordinate coordinate) {
-        return this.asSphericCoordinate().getCentralAngle(coordinate);
-    }
-
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        return isEqual(coordinate.asCartesianCoordinate());
     }
 }

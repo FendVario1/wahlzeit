@@ -40,7 +40,7 @@ public class SphericalCoordinateTest {
     @Test
     public void testCentralAngleCalculation() {
         SphericCoordinate a = new SphericCoordinate(1, 2, 1);
-        SphericCoordinate b = new SphericCoordinate(2,1, 1);
+        SphericCoordinate b = new SphericCoordinate(2, 1, 1);
         assertEquals(0.8715, a.getCentralAngle(b), delta);
         assertEquals(0.8715, b.getCentralAngle(a), delta);
     }
@@ -53,10 +53,21 @@ public class SphericalCoordinateTest {
         assertEquals(a, SphericCoordinate.takeModulo(a), delta);
         assertEquals(b, SphericCoordinate.takeModulo(b), delta);
         // test positive angles
-        assertEquals(a, SphericCoordinate.takeModulo(a + 2*Math.PI), delta);
-        assertEquals(b, SphericCoordinate.takeModulo(b + 2*Math.PI), delta);
+        assertEquals(a, SphericCoordinate.takeModulo(a + 2 * Math.PI), delta);
+        assertEquals(b, SphericCoordinate.takeModulo(b + 2 * Math.PI), delta);
         // test negative angles are handled correctly
-        assertEquals(a, SphericCoordinate.takeModulo(a - 2*Math.PI), delta);
-        assertEquals(b, SphericCoordinate.takeModulo(b - 2*Math.PI), delta);
+        assertEquals(a, SphericCoordinate.takeModulo(a - 2 * Math.PI), delta);
+        assertEquals(b, SphericCoordinate.takeModulo(b - 2 * Math.PI), delta);
+    }
+
+    @Test
+    public void testLoadValues() {
+        SphericCoordinate coordinate = new SphericCoordinate(0.9827937232473292, 0.900689018478286, 3.2202484376209237);
+        CartesianCoordinate cartesianCoordinate = coordinate.asCartesianCoordinate();
+        SphericCoordinate coordinate1 = new SphericCoordinate(0.0, 0.0, 0.0);
+        coordinate1.loadValues(cartesianCoordinate);
+        assertEquals(coordinate.getRadius(), coordinate1.getRadius(), delta);
+        assertEquals(coordinate.getPhi(), coordinate1.getPhi(), delta);
+        assertEquals(coordinate.getTheta(), coordinate1.getTheta(), delta);
     }
 }

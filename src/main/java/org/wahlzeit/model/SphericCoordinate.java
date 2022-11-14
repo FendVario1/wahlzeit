@@ -1,12 +1,10 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.services.DataObject;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SphericCoordinate extends DataObject implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 
     private double phi;
     private double theta;
@@ -44,11 +42,6 @@ public class SphericCoordinate extends DataObject implements Coordinate {
     }
 
     @Override
-    public double getCartesianDistance(Coordinate coordinate) {
-        return this.asCartesianCoordinate().getCartesianDistance(coordinate);
-    }
-
-    @Override
     public SphericCoordinate asSphericCoordinate() {
         return this;
     }
@@ -65,35 +58,11 @@ public class SphericCoordinate extends DataObject implements Coordinate {
                 Math.cos(a.getPhi())*Math.cos(b.getPhi())*Math.cos(a.getTheta()-b.getTheta()));
     }
 
-    @Override
-    public boolean isEqual(Coordinate coordinate) {
-        return this.asCartesianCoordinate().isEqual(coordinate.asCartesianCoordinate());
-    }
-
-    @Override
-    public String getIdAsString() {
-        return null;
-    }
-
-    @Override
-    public void readFrom(ResultSet rset) throws SQLException {
-        CartesianCoordinate coord = new CartesianCoordinate(0,0,0);
-        coord.readFrom(rset);
-        SphericCoordinate spheric = coord.asSphericCoordinate();
+    protected void loadValues(CartesianCoordinate coordinate) {
+        SphericCoordinate spheric = coordinate.asSphericCoordinate();
         this.radius = spheric.radius;
         this.phi = spheric.phi;
         this.theta = spheric.theta;
-    }
-
-    @Override
-    public void writeOn(ResultSet rset) throws SQLException {
-        CartesianCoordinate coord = this.asCartesianCoordinate();
-        coord.writeOn(rset);
-    }
-
-    @Override
-    public void writeId(PreparedStatement stmt, int pos) {
-        incWriteCount();
     }
 
     protected static double takeModulo(double angle) {
