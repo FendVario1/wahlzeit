@@ -117,9 +117,9 @@ public class CartesianCoordinateTest {
 
         coordinate.readFrom(rset);
 
-        verify(rset, times(1)).getDouble("coordinate_x");
-        verify(rset, times(1)).getDouble("coordinate_y");
-        verify(rset, times(1)).getDouble("coordinate_z");
+        verify(rset, times(2)).getDouble("coordinate_x");
+        verify(rset, times(2)).getDouble("coordinate_y");
+        verify(rset, times(2)).getDouble("coordinate_z");
     }
 
     @Test

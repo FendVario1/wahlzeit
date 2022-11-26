@@ -21,8 +21,8 @@ public class SphericCoordinate extends AbstractCoordinate {
         this.radius = radius;
         incWriteCount();
         assertDoubleEquals(radius, radius);
-        assertDoubleEquals(phi, takeModulo(phi));
-        assertDoubleEquals(theta, takeModulo(theta));
+        assertDoubleEquals(this.phi, takeModulo(phi));
+        assertDoubleEquals(this.theta, takeModulo(theta));
         assertClassInvariants();
     }
 
@@ -101,9 +101,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 
     @Override
     public void assertClassInvariants() throws IllegalStateException {
-        if(phi < -0.5*Math.PI || phi > 0.5*Math.PI)
+        if(phi < -Math.PI || phi > Math.PI)
             throw new WahlzeitIllegalAssertStateException(SphericCoordinate.class.getName() + ": phi " + phi + " is not within [-0.5*Pi, 0.5*Pi].");
-        if(theta < -0.5*Math.PI || theta > 0.5*Math.PI)
+        if(theta < -Math.PI || theta > Math.PI)
             throw new WahlzeitIllegalAssertStateException(SphericCoordinate.class.getName() + ": theta " + theta + " is not within [-0.5*Pi, 0.5*Pi].");
         if(radius < 0) {
             throw new WahlzeitIllegalAssertStateException(SphericCoordinate.class.getName() + ": radius " + radius + " is not positive.");
