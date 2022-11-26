@@ -16,4 +16,6 @@ public interface Coordinate {
     void readFrom(ResultSet rset) throws SQLException;
 
     void writeOn(ResultSet rset) throws SQLException;
+
+    void assertClassInvariants() throws IllegalStateException;
 }
