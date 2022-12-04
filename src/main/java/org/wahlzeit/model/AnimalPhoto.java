@@ -1,5 +1,8 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.WahlzeitException;
+import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -23,18 +26,28 @@ public class AnimalPhoto extends Photo {
         super(myId, location);
     }
 
-    public AnimalPhoto(ResultSet rset) throws SQLException {
+    public AnimalPhoto(ResultSet rset) throws SQLException, WahlzeitException {
         readFrom(rset);
     }
 
-    public void readFrom(ResultSet rset) throws SQLException {
+    public void readFrom(ResultSet rset) throws SQLException, WahlzeitException {
         species = rset.getString(speciesLabel);
-        super.readFrom(rset);
+        try {
+            super.readFrom(rset);
+        } catch (WahlzeitIllegalAssertStateException e) {
+            AnimalLog.logThrowable(e);
+            throw new WahlzeitException(e);
+        }
     }
 
-    public void writeOn(ResultSet rset) throws SQLException {
+    public void writeOn(ResultSet rset) throws SQLException, WahlzeitException {
         rset.updateString(speciesLabel, species);
-        super.writeOn(rset);
+        try {
+            super.writeOn(rset);
+        } catch (WahlzeitIllegalAssertStateException e) {
+            AnimalLog.logThrowable(e);
+            throw new WahlzeitException(e);
+        }
     }
 
     public String getSpecies() {

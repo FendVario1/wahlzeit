@@ -70,13 +70,20 @@ public class SphericCoordinate extends AbstractCoordinate {
         assertNotNull(b);
         a.assertClassInvariants();
         b.assertClassInvariants();
+        Double retVal = null;
         if(Math.abs(a.getRadius()-b.getRadius()) > 0.01)
-            return Double.NaN;// return NaN as distance can not be calculated using this function
-        return Math.acos(Math.sin(a.getPhi())*Math.sin(b.getPhi()) +
+            retVal = Double.NaN;// return NaN as distance can not be calculated using this function
+        else
+            retVal = Math.acos(Math.sin(a.getPhi())*Math.sin(b.getPhi()) +
                 Math.cos(a.getPhi())*Math.cos(b.getPhi())*Math.cos(a.getTheta()-b.getTheta()));
+        assertNotNull(retVal);
+        if(retVal < 0 && !retVal.isNaN()) {
+            throw new WahlzeitIllegalAssertStateException("Distance invalid in calculateCentralAngle.");
+        }
+        return retVal;
     }
 
-    protected void loadValues(CartesianCoordinate coordinate) {
+    protected void loadValues(CartesianCoordinate coordinate) {// TODO check usages
         assertClassInvariants();
         assertNotNull(coordinate);
         SphericCoordinate spheric = coordinate.asSphericCoordinate();
@@ -100,7 +107,7 @@ public class SphericCoordinate extends AbstractCoordinate {
     }
 
     @Override
-    public void assertClassInvariants() throws IllegalStateException {
+    public void assertClassInvariants() {
         if(phi < -Math.PI || phi > Math.PI)
             throw new WahlzeitIllegalAssertStateException(SphericCoordinate.class.getName() + ": phi " + phi + " is not within [-0.5*Pi, 0.5*Pi].");
         if(theta < -Math.PI || theta > Math.PI)

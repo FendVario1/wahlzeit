@@ -9,6 +9,8 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
+import org.wahlzeit.exceptions.WahlzeitException;
+import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
 import org.wahlzeit.main.*;
 import org.wahlzeit.services.*;
 
@@ -132,7 +134,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * 
 	 */
-	protected Photo createObject(ResultSet rset) throws SQLException {
+	protected Photo createObject(ResultSet rset) throws SQLException, WahlzeitException {
 		return PhotoFactory.getInstance().createPhoto(rset);
 	}
 	

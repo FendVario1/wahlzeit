@@ -8,6 +8,7 @@ package org.wahlzeit.model;
 import java.sql.*;
 import java.net.*;
 
+import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.services.*;
 import org.wahlzeit.utils.*;
 
@@ -137,7 +138,7 @@ public class Photo extends DataObject {
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(ResultSet rset) throws SQLException {
+	public Photo(ResultSet rset) throws SQLException, WahlzeitException {
 		readFrom(rset);
 	}
 
@@ -152,7 +153,7 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
-	public void readFrom(ResultSet rset) throws SQLException {
+	public void readFrom(ResultSet rset) throws SQLException, WahlzeitException {
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 
 		ownerId = rset.getInt("owner_id");
@@ -177,13 +178,13 @@ public class Photo extends DataObject {
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
 		location = new Location(new CartesianCoordinate(0,0,0));
-		location.readFrom(rset);
+		location.readFrom(rset);// let error propagate, as no way of fixing
 	}
 	
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException, WahlzeitException {
 		rset.updateInt("id", id.asInt());
 		rset.updateInt("owner_id", ownerId);
 		rset.updateString("owner_name", ownerName);

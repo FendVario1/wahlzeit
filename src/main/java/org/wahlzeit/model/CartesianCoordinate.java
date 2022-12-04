@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -47,7 +49,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
     public double getDistance(CartesianCoordinate coordinate) {
         assertClassInvariants();
         assertNotNull(coordinate);
-        return Math.sqrt(Math.pow(coordinate.getX() - x, 2) + Math.pow(coordinate.getY() - y, 2) + Math.pow(coordinate.getZ() - z, 2));
+        double retVal = Math.sqrt(Math.pow(coordinate.getX() - x, 2) + Math.pow(coordinate.getY() - y, 2) + Math.pow(coordinate.getZ() - z, 2));
+        if(retVal < 0) {
+            throw new WahlzeitIllegalAssertStateException("Distance invalid in getDistance.");
+        }
+        return retVal;
     }
 
     public boolean isEqual(CartesianCoordinate coordinate) {
@@ -131,5 +137,5 @@ public class CartesianCoordinate extends AbstractCoordinate {
     }
 
     @Override
-    public void assertClassInvariants() throws IllegalStateException {}
+    public void assertClassInvariants() {}
 }

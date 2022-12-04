@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.exceptions.WahlzeitException;
+import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
 import org.wahlzeit.services.SysLog;
 
 import java.sql.ResultSet;
@@ -14,7 +16,12 @@ public class AnimalPhotoFactory extends PhotoFactory {
     public static synchronized AnimalPhotoFactory getInstance() {
         if (!initialized) {
             SysLog.logSysInfo("setting specific AnimalPhotoFactory");
-            PhotoFactory.setInstance(new AnimalPhotoFactory());
+            try {
+                PhotoFactory.setInstance(new AnimalPhotoFactory());
+            } catch (IllegalStateException e) {
+                SysLog.logThrowable(e);
+                System.exit(-1);
+            }
             initialized = true;
         }
 
@@ -49,7 +56,12 @@ public class AnimalPhotoFactory extends PhotoFactory {
     /**
      *
      */
-    public AnimalPhoto createPhoto(ResultSet rs) throws SQLException {
-        return new AnimalPhoto(rs);
+    public AnimalPhoto createPhoto(ResultSet rs) throws SQLException, WahlzeitException {
+        try {
+            return new AnimalPhoto(rs);
+        } catch (WahlzeitIllegalAssertStateException e) {
+            AnimalLog.logThrowable(e);
+            throw new WahlzeitException(e);
+        }
     }
 }

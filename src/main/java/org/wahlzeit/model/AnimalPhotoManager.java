@@ -15,7 +15,12 @@ public class AnimalPhotoManager extends PhotoManager {
     public static synchronized AnimalPhotoManager getInstance() {
         if (!initialized) {
             SysLog.logSysInfo("setting specific AnimalPhotoFactory");
-            PhotoManager.setInstance(new AnimalPhotoManager());
+            try {
+                PhotoManager.setInstance(new AnimalPhotoManager());
+            } catch (IllegalStateException e) {
+                SysLog.logThrowable(e);
+                System.exit(-1);
+            }
             initialized = true;
         }
 

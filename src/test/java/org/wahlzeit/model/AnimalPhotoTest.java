@@ -2,6 +2,7 @@ package org.wahlzeit.model;
 
 
 import org.junit.Test;
+import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.utils.StringUtil;
 
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.times;
 public class AnimalPhotoTest {
 
     @Test
-    public void testSerialization() throws SQLException {
+    public void testSerialization() throws SQLException, WahlzeitException {
         ResultSet rset = mock(ResultSet.class);
         AnimalPhoto photo = new AnimalPhoto();
         photo.setSpecies("Fox");
@@ -32,7 +33,7 @@ public class AnimalPhotoTest {
     }
 
     @Test
-    public void testDeserialization() throws SQLException {
+    public void testDeserialization() throws SQLException, WahlzeitException {
         ResultSet rset = mock(ResultSet.class);
         // return valid values, as otherwise the test would fail
         when(rset.getString("owner_email_address")).thenReturn("test@example.org");

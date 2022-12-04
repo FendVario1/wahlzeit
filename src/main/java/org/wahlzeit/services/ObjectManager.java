@@ -6,6 +6,8 @@
 
 package org.wahlzeit.services;
 
+import org.wahlzeit.exceptions.WahlzeitException;
+
 import java.sql.*;
 import java.util.*;
 
@@ -47,7 +49,11 @@ public abstract class ObjectManager {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		if (rset.next()) {
-			result = createObject(rset);
+			try {
+				result = createObject(rset);
+			} catch (WahlzeitException e) {
+				SysLog.logThrowable(e);
+			}
 		}
 
 		return result;
@@ -62,7 +68,11 @@ public abstract class ObjectManager {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		if (rset.next()) {
-			result = createObject(rset);
+			try {
+				result = createObject(rset);
+			} catch (WahlzeitException e) {
+				SysLog.logThrowable(e);
+			}
 		}
 
 		return result;
@@ -75,8 +85,12 @@ public abstract class ObjectManager {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		while (rset.next()) {
-			Persistent obj = createObject(rset);
-			result.add(obj);
+			try {
+				Persistent obj = createObject(rset);
+				result.add(obj);
+			} catch (WahlzeitException e) {
+				SysLog.logThrowable(e);
+			}
 		}
 	}
 		
@@ -88,15 +102,19 @@ public abstract class ObjectManager {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		while (rset.next()) {
-			Persistent obj = createObject(rset);
-			result.add(obj);
+			try {
+				Persistent obj = createObject(rset);
+				result.add(obj);
+			} catch (WahlzeitException e) {
+				SysLog.logThrowable(e);
+			}
 		}
 	}
 		
 	/**
 	 * 
 	 */
-	protected abstract Persistent createObject(ResultSet rset) throws SQLException;
+	protected abstract Persistent createObject(ResultSet rset) throws SQLException, WahlzeitException;
 
 	/**
 	 * 
@@ -124,13 +142,17 @@ public abstract class ObjectManager {
 			obj.writeId(stmt, 1);
 			SysLog.logQuery(stmt);
 			ResultSet rset = stmt.executeQuery();
-			if (rset.next()) {
-				obj.writeOn(rset);
-				rset.updateRow();
-				updateDependents(obj);
-				obj.resetWriteCount();
-			} else {
-				SysLog.logSysError("trying to update non-existent object: " + obj.getIdAsString() + "(" + obj.toString() + ")");
+			try {
+				if (rset.next()) {
+					obj.writeOn(rset);
+					rset.updateRow();
+					updateDependents(obj);
+					obj.resetWriteCount();
+				} else {
+					SysLog.logSysError("trying to update non-existent object: " + obj.getIdAsString() + "(" + obj.toString() + ")");
+				}
+			} catch (WahlzeitException e) {
+				SysLog.logThrowable(e);
 			}
 		}
 	}

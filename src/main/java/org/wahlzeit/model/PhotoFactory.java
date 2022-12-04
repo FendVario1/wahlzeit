@@ -7,6 +7,7 @@ package org.wahlzeit.model;
 
 import java.sql.*;
 
+import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.services.*;
 
 /**
@@ -73,7 +74,7 @@ public class PhotoFactory {
 	/**
 	 * 
 	 */
-	public Photo createPhoto(ResultSet rs) throws SQLException {
+	public Photo createPhoto(ResultSet rs) throws SQLException, WahlzeitException {
 		return new Photo(rs);
 	}
 	

@@ -5,6 +5,8 @@
 
 package org.wahlzeit.services;
 
+import org.wahlzeit.exceptions.WahlzeitException;
+
 import java.sql.*;
 
 /**
@@ -36,12 +38,12 @@ public interface Persistent {
 	/**
 	 * 
 	 */
-	public void readFrom(ResultSet rset) throws SQLException;
+	public void readFrom(ResultSet rset) throws SQLException, WahlzeitException;
 	
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException;
+	public void writeOn(ResultSet rset) throws SQLException, WahlzeitException;
 	
 	/**
 	 * 
