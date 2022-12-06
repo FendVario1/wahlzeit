@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class Location extends DataObject {
 
-    public final Coordinate coordinate;
+    private Coordinate coordinate;
 
 
     /**
@@ -21,6 +21,10 @@ public class Location extends DataObject {
         incWriteCount();
     }
 
+    public Coordinate getCoordinate() {
+        return coordinate;
+    }
+
     @Override
     public String getIdAsString() {
         return null;
@@ -28,7 +32,7 @@ public class Location extends DataObject {
 
     @Override
     public void readFrom(ResultSet rset) throws SQLException {
-        coordinate.readFrom(rset);
+        this.coordinate = Coordinate.readFrom(rset);
     }
 
     @Override

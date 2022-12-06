@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
+import static org.wahlzeit.model.CartesianCoordinate.getCartesianCoordinate;
 
 /**
  * All test cases of the class {@link Photo}.
@@ -17,7 +18,7 @@ public class PhotoTest {
     public void testLocationStorage() {
         Photo photo = new Photo();
         assertNull(photo.getLocation());
-        Location location = new Location(new CartesianCoordinate(1.1, 2.2, 3.3));
+        Location location = new Location(getCartesianCoordinate(1.1, 2.2, 3.3));
         photo.setLocation(location);
         assertEquals(location, photo.getLocation());
         photo = new Photo(location);
@@ -28,12 +29,14 @@ public class PhotoTest {
 
     @Test
     public void testSerialization() throws SQLException {
-        Location location = mock(Location.class);
+        Location location = new Location(getCartesianCoordinate(1.1, 2.2, 3.3));
         ResultSet rset = mock(ResultSet.class);
 
         location.writeOn(rset);
 
-        verify(location, times(1)).writeOn(rset);
+        verify(rset, times(1)).updateLong("coordinate_x", 110000);
+        verify(rset, times(1)).updateLong("coordinate_y", 220000);
+        verify(rset, times(1)).updateLong("coordinate_z", 330000);
     }
 
     @Test

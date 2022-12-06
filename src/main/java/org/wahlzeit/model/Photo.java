@@ -12,6 +12,8 @@ import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.services.*;
 import org.wahlzeit.utils.*;
 
+import static org.wahlzeit.model.CartesianCoordinate.getCartesianCoordinate;
+
 /**
  * A photo represents a user-provided (uploaded) photo.
  */
@@ -177,7 +179,7 @@ public class Photo extends DataObject {
 
 		maxPhotoSize = PhotoSize.getFromWidthHeight(width, height);
 
-		location = new Location(new CartesianCoordinate(0,0,0));
+		location = new Location(getCartesianCoordinate(0,0,0));
 		location.readFrom(rset);// let error propagate, as no way of fixing
 	}
 	

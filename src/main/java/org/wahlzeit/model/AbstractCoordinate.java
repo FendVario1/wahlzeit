@@ -1,13 +1,11 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
-import org.wahlzeit.services.DataObject;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class AbstractCoordinate extends DataObject implements Coordinate  {
+public abstract class AbstractCoordinate implements Coordinate  {
 
     @Override
     public double getCartesianDistance(Coordinate coordinate) {
@@ -27,46 +25,27 @@ public abstract class AbstractCoordinate extends DataObject implements Coordinat
         return this.asCartesianCoordinate().isEqual(coordinate.asCartesianCoordinate());
     }
 
-    @Override
-    public String getIdAsString() {
-        assertClassInvariants();
-        return null;
-    }
-
-    @Override
-    public void writeId(PreparedStatement stmt, int pos) {
-        assertClassInvariants();
-        incWriteCount();
-        assertClassInvariants();
-    }
-
-    @Override
-    public void readFrom(ResultSet rset) throws SQLException {
-        assertClassInvariants();
-        CartesianCoordinate coord = new CartesianCoordinate(0,0,0);
-        coord.readFrom(rset);
-        this.loadValues(coord);
-        assertClassInvariants();
-    }
-
-    @Override
     public void writeOn(ResultSet rset) throws SQLException {
         assertClassInvariants();
         CartesianCoordinate coord = this.asCartesianCoordinate();
         coord.writeOn(rset);
     }
 
-    abstract protected void loadValues(CartesianCoordinate coordinate);
-
-    protected static void assertNotNull(Object obj) {
-        if(obj == null) {
-            throw new WahlzeitIllegalAssertStateException("Argument is null.");
+    protected static void assertDoubleEquals(double a, double b) {
+        if(Math.abs(a - b) > 0.0001) {
+            throw new WahlzeitIllegalAssertStateException("Doubles " + a + " and " + b + " are not equal.");
         }
     }
 
-    protected static void assertDoubleEquals(double a, double b) {
-        if(Math.abs(a - b) > 0.00001) {
-            throw new WahlzeitIllegalAssertStateException("Doubles " + a + " and " + b + " are not equal.");
+    protected static void assertIntEqualsDouble(long a, double b, int factor) {
+        if(Math.abs(a/(double) factor - b) > 1.1/factor) {
+            throw new WahlzeitIllegalAssertStateException("Int " + a/(double) factor + " and double " + b + " are not equal under factor " + factor + ".");
+        }
+    }
+
+    protected static void assertLongEquals(long a, long b) {
+        if(a != b) {
+            throw new WahlzeitIllegalAssertStateException("Integers " + a + " and " + b + " are not equal.");
         }
     }
 

@@ -30,9 +30,9 @@ CREATE TABLE photos (
 	praise_sum integer,
 	no_votes integer,
 	creation_time bigint,
-    coordinate_x double precision,
-    coordinate_y double precision,
-    coordinate_z double precision,
+    coordinate_x bigint,
+    coordinate_y bigint,
+    coordinate_z bigint,
     animal_species text
 );
 
