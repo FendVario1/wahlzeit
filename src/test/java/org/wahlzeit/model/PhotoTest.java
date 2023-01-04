@@ -27,7 +27,7 @@ public class PhotoTest {
         assertEquals(location, photo.getLocation());
     }
 
-    /*@Test
+    @Test
     public void testSerialization() throws SQLException {
         Location location = new Location(getCartesianCoordinate(1.1, 2.2, 3.3));
         ResultSet rset = mock(ResultSet.class);
@@ -47,5 +47,5 @@ public class PhotoTest {
         location.readFrom(rset);
 
         verify(location, times(1)).readFrom(rset);
-    }*/
+    }
 }
