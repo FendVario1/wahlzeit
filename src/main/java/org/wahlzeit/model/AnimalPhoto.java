@@ -1,11 +1,18 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@PatternInstance(
+        patternName = "AbstractFactory",
+        participants = {
+                "ConcreteProduct"
+        }
+)
 public class AnimalPhoto extends Photo {
     public static final String speciesLabel = "animal_species";
     protected String species;

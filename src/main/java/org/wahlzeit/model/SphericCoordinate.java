@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
 
 import java.util.HashMap;
@@ -7,6 +8,12 @@ import java.util.Objects;
 
 import static org.wahlzeit.model.CartesianCoordinate.getCartesianCoordinate;
 
+@PatternInstance(
+        patternName = "ValueObject",
+        participants = {
+                "ValueObject"
+        }
+)
 public class SphericCoordinate extends AbstractCoordinate {
 
     private final static int INTERNAL_FACTOR_MULTIPLIER = 100000;

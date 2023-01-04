@@ -8,6 +8,7 @@ package org.wahlzeit.webparts;
 import java.util.*;
 import java.io.*;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.utils.*;
 
 /**
@@ -15,6 +16,12 @@ import org.wahlzeit.utils.*;
  * A WebPart has its data set from a client using key/value pairs.
  * A WebPart has a recursive structure; it may contain further WebParts.
  */
+@PatternInstance(
+		patternName = "Composite",
+		participants = {
+				"Composite", "Component", "Leaf"
+		}
+)
 public class WebPart implements Writable {
 
 	/**

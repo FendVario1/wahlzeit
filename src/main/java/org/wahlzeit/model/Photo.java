@@ -8,6 +8,7 @@ package org.wahlzeit.model;
 import java.sql.*;
 import java.net.*;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.services.*;
 import org.wahlzeit.utils.*;
@@ -17,6 +18,13 @@ import static org.wahlzeit.model.CartesianCoordinate.getCartesianCoordinate;
 /**
  * A photo represents a user-provided (uploaded) photo.
  */
+@PatternInstance(
+		patternName = "AbstractFactory",
+		participants = {
+				"AbstractProduct",
+				"ConcreteProduct"
+		}
+)
 public class Photo extends DataObject {
 
 	/**

@@ -7,12 +7,26 @@ package org.wahlzeit.model;
 
 import java.sql.*;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.services.*;
 
 /**
  * An Abstract Factory for creating photos and related objects.
  */
+@PatternInstance(
+		patternName = "Singleton",
+		participants = {
+				"Singleton"
+		}
+)
+@PatternInstance(
+		patternName = "AbstractFactory",
+		participants = {
+				"AbstractFactory",
+				"ConcreteFactory"
+		}
+)
 public class PhotoFactory {
 	
 	/**

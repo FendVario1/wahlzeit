@@ -1,11 +1,11 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.IdentityHashMap;
 import java.util.Objects;
 
 import static org.wahlzeit.model.SphericCoordinate.*;
@@ -13,6 +13,12 @@ import static org.wahlzeit.model.SphericCoordinate.*;
 /**
  * Class representing coordinates in a 3-dimensional cartesian system
  */
+@PatternInstance(
+        patternName = "ValueObject",
+        participants = {
+            "ValueObject"
+        }
+)
 public class CartesianCoordinate extends AbstractCoordinate {
 
     private final static int INTERNAL_FACTOR_MULTIPLIER = 100000;

@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.annotations.PatternInstance;
 import org.wahlzeit.exceptions.WahlzeitException;
 import org.wahlzeit.exceptions.WahlzeitIllegalAssertStateException;
 import org.wahlzeit.services.SysLog;
@@ -7,6 +8,12 @@ import org.wahlzeit.services.SysLog;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@PatternInstance(
+        patternName = "AbstractFactory",
+        participants = {
+                "ConcreteFactory"
+        }
+)
 public class AnimalPhotoFactory extends PhotoFactory {
     private static boolean initialized = false;
 
