@@ -1,0 +1,13 @@
+package org.wahlzeit.model;
+
+public enum RedListState {
+    DATA_DEFICIENT,
+    LEAST_CONCERN,
+    NEAR_THREATENED,
+    VULNERABLE,
+    ENDANGERED,
+    CRITICALLY_ENDANGERED,
+    EXTINCT_IN_THE_WILD,
+    EXTINCT,
+    NOT_EVALUATED
+}
