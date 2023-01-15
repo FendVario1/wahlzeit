@@ -14,8 +14,8 @@ import java.sql.SQLException;
         }
 )
 public class AnimalPhoto extends Photo {
-    public static final String speciesLabel = "animal_species";
-    protected String species;
+
+    protected Animal animal;
 
     public AnimalPhoto() {
         super();
@@ -37,8 +37,16 @@ public class AnimalPhoto extends Photo {
         readFrom(rset);
     }
 
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+
+    public Animal getAnimal() {
+        return animal;
+    }
+
+
     public void readFrom(ResultSet rset) throws SQLException, WahlzeitException {
-        species = rset.getString(speciesLabel);
         try {
             super.readFrom(rset);
         } catch (WahlzeitIllegalAssertStateException e) {
@@ -48,21 +56,11 @@ public class AnimalPhoto extends Photo {
     }
 
     public void writeOn(ResultSet rset) throws SQLException, WahlzeitException {
-        rset.updateString(speciesLabel, species);
         try {
             super.writeOn(rset);
         } catch (WahlzeitIllegalAssertStateException e) {
             AnimalLog.logThrowable(e);
             throw new WahlzeitException(e);
         }
-    }
-
-    public String getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(String species) {
-        this.species = species;
-        incWriteCount();
     }
 }

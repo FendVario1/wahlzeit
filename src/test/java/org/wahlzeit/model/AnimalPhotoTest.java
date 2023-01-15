@@ -21,13 +21,11 @@ public class AnimalPhotoTest {
     public void testSerialization() throws SQLException, WahlzeitException {
         ResultSet rset = mock(ResultSet.class);
         AnimalPhoto photo = new AnimalPhoto();
-        photo.setSpecies("Fox");
         // set values that would otherwise create errors.
         photo.ownerHomePage = StringUtil.asUrl("https://example.org");
 
         photo.writeOn(rset);
 
-        verify(rset, times(1)).updateString(AnimalPhoto.speciesLabel, "Fox");
         // test Photo fields are still serialized
         verify(rset, times(1)).updateInt("id", photo.getId().asInt());
     }
@@ -43,7 +41,6 @@ public class AnimalPhotoTest {
 
         photo.readFrom(rset);
 
-        verify(rset, times(1)).getString(AnimalPhoto.speciesLabel);
         // test Photo fields are still correctly populated
         verify(rset, times(1)).getInt("id");
     }
